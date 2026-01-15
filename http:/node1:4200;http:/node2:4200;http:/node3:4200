@@ -1,0 +1,50 @@
+
+Requests are sent in round-robin order, which pairs naturally with:
+- HAProxy
+- Multiple RK3588 boards
+- Worker-isolated NPU inference
+
+---
+
+## Expected Performance & Behavior
+
+What to expect when using these nodes:
+- ✅ Very fast low-step generation (LCM-style)
+- ✅ Deterministic results when seed is fixed
+- ✅ No VRAM pressure on the ComfyUI machine
+- ✅ Suitable for headless or embedded inference boxes
+- ⚠️ VAE decode is slower than U-Net (known RKNN behavior)
+- ⚠️ SR is tile-based and memory-bounded by the server
+
+All performance characteristics are dictated by the LCM server, not ComfyUI.
+
+---
+
+## Typical Use Cases
+
+- Offload image generation to RK3588 edge devices
+- Centralize inference while keeping ComfyUI as the UI / workflow engine
+- Mix LCM renders into larger ComfyUI pipelines
+- Run server-side super-resolution without GPU usage
+
+---
+
+## Summary
+
+This plugin turns ComfyUI into a first-class client for a Rockchip-based LCM inference service.
+- ComfyUI = workflow & orchestration
+- LCM Server = inference & acceleration
+
+Clean separation. No hacks. No unsafe RKNN sharing.
+
+If you can call the server with curl, you can call it from ComfyUI.
+
+---
+
+If you want, next we can:
+- Add ComfyUI previews with progress polling
+- Add an A1111-compatible node
+- Add OpenWebUI tool definitions
+- Add ComfyUI workflow JSON examples
+
+Just tell me where you want this to go next.
